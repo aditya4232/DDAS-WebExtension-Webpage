@@ -1,26 +1,19 @@
 {
   "manifest_version": 3,
-  "name": "Data download Duplication Alert System (DDAS)",
+  "name": "Data Download Duplication Alert",
   "version": "1.0",
-  "description": "Track and manage file downloads - Made by Team Spark [ Hackathon ]",
-  "permissions": ["downloads", "storage", "tabs"],
+  "description": "Monitors file downloads and detects duplicate download attempts.",
   "action": {
     "default_popup": "popup.html",
-    "default_icon": {
-      "16": "logo.jpg",
-      "48": "logo.jpg",
-      "128": "logo1.jpg"
-    }
+    "default_icon": "icons/icon.png"
   },
+  "permissions": ["downloads", "storage", "notifications"],
   "background": {
     "service_worker": "background.js"
   },
-  "host_permissions": [
-    "http://localhost:3000/*"
-  ],
   "icons": {
-    "16": "logo.jpg",
-    "48": "logo.jpg",
-    "128": "logo1.jpg"
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
   }
 }
