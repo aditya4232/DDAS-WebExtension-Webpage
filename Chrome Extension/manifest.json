@@ -15,7 +15,7 @@
     "scopes": ["https://www.googleapis.com/auth/userinfo.email"]
   },
   "icons": {
-    "48": "icons/icon48.png",
-    "128": "icons/icon128.png"
+    "48": "",
+    "128": ""
   }
 }
