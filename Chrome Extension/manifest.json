@@ -1,0 +1,27 @@
+{
+    "manifest_version": 3,
+    "name": "Data Duplication Alert System",
+    "version": "1.0",
+    "description": "Alerts when duplicate data is downloaded.",
+    "permissions": ["downloads", "storage"],
+    "background": {
+      "service_worker": "background.js"
+    },
+    "action": {
+      "default_popup": "popup.html",
+      "default_title": "Check Duplicate Data"
+    },
+    "options_page": "options/options.html",
+    "icons": {
+      "16": "logo.jpg",
+      "48": "logo.jpg",
+      "128": "logo.jpg"
+    },
+    "host_permissions": [
+      "https://aditya4232.github.io/*"
+    ],
+    "content_security_policy": {
+      "extension_pages": "script-src 'self' https://aditya4232.github.io; object-src 'self'"
+    }
+  }
+  
