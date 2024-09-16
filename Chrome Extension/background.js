@@ -1,24 +1,32 @@
-chrome.runtime.onInstalled.addListener(() => {
-  console.log('Extension installed');
-});
+let downloadHistory = [];
 
 chrome.downloads.onCreated.addListener((downloadItem) => {
-  console.log('Download started:', downloadItem);
+  chrome.storage.sync.get(["downloadHistory"], (result) => {
+    downloadHistory = result.downloadHistory || [];
 
-  chrome.storage.sync.get('userToken', (data) => {
-    const token = data.userToken;
-    if (token) {
-      fetch('http://localhost:3000/api/detect-duplicate', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          filename: downloadItem.filename,
-          url: downloadItem.url
-        })
+    const fileHash = downloadItem.url + downloadItem.filename;
+    const duplicate = downloadHistory.find(item => item.hash === fileHash);
+
+    if (duplicate) {
+      // Send notification of duplicate download
+      chrome.notifications.create({
+        type: 'basic',
+        iconUrl: 'icons/icon128.png',
+        title: 'Duplicate Download Detected',
+        message: `File ${downloadItem.filename} was already downloaded!`,
+        priority: 2
       });
+    } else {
+      // Add new file to download history
+      downloadHistory.push({
+        id: downloadItem.id,
+        filename: downloadItem.filename,
+        url: downloadItem.url,
+        hash: fileHash,
+        timestamp: Date.now()
+      });
+
+      chrome.storage.sync.set({ "downloadHistory": downloadHistory });
     }
   });
 });

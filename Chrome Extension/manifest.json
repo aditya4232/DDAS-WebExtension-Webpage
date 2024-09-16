@@ -1,9 +1,9 @@
 {
   "manifest_version": 3,
-  "name": "Download Duplication Alert",
-  "description": "Alerts on duplicate downloads and provides secure notifications.",
+  "name": "Download Duplication Detector",
   "version": "1.0",
-  "permissions": ["downloads", "identity", "storage"],
+  "description": "Detects and prevents duplicate file downloads",
+  "permissions": ["downloads", "storage", "identity", "identity.email"],
   "background": {
     "service_worker": "background.js"
   },
@@ -13,5 +13,9 @@
   "oauth2": {
     "client_id": "853633666368-vqqq1itvst9tcm73fqv5ee28b8j6cgjs.apps.googleusercontent.com",
     "scopes": ["https://www.googleapis.com/auth/userinfo.email"]
+  },
+  "icons": {
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
   }
 }
