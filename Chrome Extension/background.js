@@ -1,32 +1,24 @@
+chrome.runtime.onInstalled.addListener(() => {
+  console.log('Extension installed');
+});
+
 chrome.downloads.onCreated.addListener((downloadItem) => {
-  const fileName = downloadItem.filename;
-  const userDetails = 'user-session-data'; // Can be extended with real user data
-  const downloadHash = fileName + userDetails;
+  console.log('Download started:', downloadItem);
 
-  chrome.storage.sync.get(['downloads'], function (data) {
-    const downloads = data.downloads || [];
-
-    const isDuplicate = downloads.some(
-      (download) => download.hash === downloadHash
-    );
-
-    if (isDuplicate) {
-      // Alert and log the duplicate attempt
-      chrome.storage.sync.set({
-        duplicationStatus: 'detected',
-        details: `File: ${fileName} has been downloaded again.`
+  chrome.storage.sync.get('userToken', (data) => {
+    const token = data.userToken;
+    if (token) {
+      fetch('http://localhost:3000/api/detect-duplicate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          filename: downloadItem.filename,
+          url: downloadItem.url
+        })
       });
-
-      chrome.notifications.create({
-        type: 'basic',
-        iconUrl: 'icons/icon128.png',
-        title: 'Duplicate Download Detected',
-        message: `The file "${fileName}" has been downloaded again.`
-      });
-    } else {
-      // Save the new download record
-      downloads.push({ hash: downloadHash, fileName });
-      chrome.storage.sync.set({ downloads });
     }
   });
 });
