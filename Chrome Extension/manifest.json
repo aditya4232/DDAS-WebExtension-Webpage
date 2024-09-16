@@ -16,12 +16,6 @@
       "16": "logo.jpg",
       "48": "logo.jpg",
       "128": "logo.jpg"
-    },
-    "host_permissions": [
-      "https://aditya4232.github.io/*"
-    ],
-    "content_security_policy": {
-      "extension_pages": "script-src 'self' https://aditya4232.github.io; object-src 'self'"
     }
   }
   
