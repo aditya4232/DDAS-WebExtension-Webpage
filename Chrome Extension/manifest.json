@@ -1,18 +1,21 @@
 {
   "manifest_version": 3,
-  "name": "Data Duplication Alert System",
-  "version": "1.0",
-  "description": "Alerts users when they try to download duplicate files.",
+  "name": "Advanced Download Detector",
+  "version": "1.1",
+  "description": "Detects downloads and shows a popup for multiple files with the same name or many downloads.",
   "permissions": [
-    "downloads",         
-    "downloads.shelf",   
-    "storage",           
-    "notifications"      
+    "downloads",
+    "notifications",
+    "storage"
   ],
   "background": {
     "service_worker": "background.js"
   },
   "action": {
-    "default_popup": "popup.html"
+    "default_popup": "popup.html",
+    "default_icon": "images/icon.png"
+  },
+  "icons": {
+    "48": "images/icon.png"
   }
 }

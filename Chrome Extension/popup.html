@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Data Duplication Alert</title>
-    <style>
-        body { font-family: Arial, sans-serif; }
-        .container { text-align: center; padding: 20px; }
-    </style>
+  <title>Download Alert</title>
+  <style>
+    body {
+      width: 300px;
+      padding: 10px;
+    }
+    button {
+      margin: 5px;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Data Duplication Alert System</h2>
-        <p>Download duplicates? We’ve got you covered!</p>
-        <button id="openOptions">Settings</button>
-    </div>
-
-    <script src="popup.js"></script>
+  <h3>Download Alert</h3>
+  <div id="download-list"></div>
+  <button id="ok">OK</button>
+  <script src="popup.js"></script>
 </body>
 </html>
