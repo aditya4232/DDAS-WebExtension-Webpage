@@ -1,35 +1,55 @@
-let downloadedFiles = {};
-let alertThreshold = 1; // Default value
+let pendingDownloads = {};
+let downloadThreshold = 2; // Number of downloads to trigger the alert
 
-// Listening for messages from the webpage to update the settings
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.type === 'updateSettings') {
-    alertThreshold = message.threshold;
-    sendResponse({status: 'Settings updated!'});
-  }
-});
-
-// Download listener
 chrome.downloads.onCreated.addListener((downloadItem) => {
-  const fileName = downloadItem.filename;
+  let fileType = getFileType(downloadItem.filename);
 
-  // Check for duplicate downloads based on the threshold
-  if (downloadedFiles[fileName]) {
-    downloadedFiles[fileName] += 1;
-    if (downloadedFiles[fileName] >= alertThreshold) {
+  if (!pendingDownloads[fileType]) {
+    pendingDownloads[fileType] = [];
+  }
+  
+  pendingDownloads[fileType].push(downloadItem.id);
+
+  if (pendingDownloads[fileType].length >= downloadThreshold) {
+    // Cancel the download and prompt user for confirmation
+    chrome.downloads.cancel(downloadItem.id, () => {
       chrome.notifications.create({
         type: "basic",
-        iconUrl: "icons/icon48.png",
-        title: "Duplicate Download Detected",
-        message: `The file "${fileName}" has already been downloaded ${downloadedFiles[fileName]} times.`
+        iconUrl: "icons/logo.jpg",
+        title: "Download Alert",
+        message: `Multiple ${fileType} files are being downloaded. Do you want to allow them?`,
+        actions: [
+          { title: "Allow Downloads", action: "allow" },
+          { title: "Cancel Downloads", action: "cancel" }
+        ],
+        priority: 2
       });
-    }
-  } else {
-    downloadedFiles[fileName] = 1;
+    });
   }
 });
 
-// Reset downloads list on browser restart or extension reload
-chrome.runtime.onStartup.addListener(() => {
-  downloadedFiles = {};
+chrome.downloads.onChanged.addListener((delta) => {
+  if (delta.state && delta.state.current === "complete") {
+    let fileType = getFileType(delta.filename);
+    if (pendingDownloads[fileType]) {
+      pendingDownloads[fileType] = pendingDownloads[fileType].filter(id => id !== delta.id);
+    }
+  }
 });
+
+chrome.notifications.onButtonClicked.addListener((notificationId, buttonIndex) => {
+  if (buttonIndex === 0) { // Allow Downloads
+    chrome.runtime.sendMessage({ type: "allowDownloads" });
+  } else if (buttonIndex === 1) { // Cancel Downloads
+    chrome.runtime.sendMessage({ type: "cancelDownloads" });
+  }
+});
+
+function getFileType(filename) {
+  const ext = filename.split('.').pop().toLowerCase();
+  if (['jpg', 'jpeg', 'png', 'gif'].includes(ext)) {
+    return 'image';
+  }
+  // Add more categories as needed
+  return 'other';
+}

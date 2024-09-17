@@ -1,21 +1,36 @@
 {
     "manifest_version": 3,
-    "name": "Data Duplication Alert System",
+    "name": "Data Duplication Alert",
     "version": "1.0",
-    "description": "Alerts when duplicate data is downloaded.",
-    "permissions": ["downloads", "storage"],
+    "description": "Alerts when data duplication or multiple file downloads are detected on a webpage",
+    "permissions": [
+      "storage",
+      "activeTab",
+      "scripting",
+      "downloads",
+      "notifications"
+    ],
     "background": {
       "service_worker": "background.js"
     },
     "action": {
       "default_popup": "popup.html",
-      "default_title": "Check Duplicate Data"
+      "default_icon": {
+        "16": "icons/logo.jpg",
+        "48": "icons/logo.jpg",
+        "128": "icons/logo.jpg"
+      }
     },
-    "options_page": "options/options.html",
     "icons": {
-      "16": "logo.jpg",
-      "48": "logo.jpg",
-      "128": "logo.jpg"
-    }
+      "16": "icons/logo.jpg",
+      "48": "icons/logo.jpg",
+      "128": "icons/logo.jpg"
+    },
+    "content_scripts": [
+      {
+        "matches": ["<all_urls>"],
+        "js": ["content.js"]
+      }
+    ]
   }
   
