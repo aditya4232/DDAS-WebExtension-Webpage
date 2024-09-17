@@ -1,10 +1,13 @@
 {
   "manifest_version": 3,
-  "name": "File Download Detector",
+  "name": "Data Duplication Alert System",
   "version": "1.0",
-  "description": "Detects multiple downloads and shows a confirmation popup.",
+  "description": "Alerts users when they try to download duplicate files.",
   "permissions": [
-    "downloads"
+    "downloads",         
+    "downloads.shelf",   
+    "storage",           
+    "notifications"      
   ],
   "background": {
     "service_worker": "background.js"
