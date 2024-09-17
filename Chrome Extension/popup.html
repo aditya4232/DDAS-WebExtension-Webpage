@@ -1,24 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Data Duplication and Download Alert</title>
-  <link rel="stylesheet" href="style.css">
+    <title>Confirm Download</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 10px;
+        }
+        button {
+            margin: 10px;
+        }
+    </style>
 </head>
 <body>
-  <div class="popup">
-    <h1>Data Duplication and Download Alert</h1>
-    <button id="checkDuplication">Check Duplication</button>
-    <button id="clearBadge">Clear Badge</button>
-    <button id="openSettings">Settings</button>
-    <div id="confirmationSection" style="display: none;">
-      <p id="confirmationMessage"></p>
-      <button id="allowDownloads">Allow Downloads</button>
-      <button id="cancelDownloads">Cancel Downloads</button>
-    </div>
-  </div>
+    <h2>Multiple downloads detected</h2>
+    <p>Do you want to allow downloading multiple files?</p>
+    <button id="allow">Allow</button>
+    <button id="deny">Deny</button>
 
-  <script src="popup.js"></script>
+    <script src="popup.js"></script>
 </body>
 </html>

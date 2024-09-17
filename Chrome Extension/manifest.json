@@ -1,36 +1,15 @@
 {
-    "manifest_version": 3,
-    "name": "Data Duplication Alert",
-    "version": "1.0",
-    "description": "Alerts when data duplication or multiple file downloads are detected on a webpage",
-    "permissions": [
-      "storage",
-      "activeTab",
-      "scripting",
-      "downloads",
-      "notifications"
-    ],
-    "background": {
-      "service_worker": "background.js"
-    },
-    "action": {
-      "default_popup": "popup.html",
-      "default_icon": {
-        "16": "icons/logo.jpg",
-        "48": "icons/logo.jpg",
-        "128": "icons/logo.jpg"
-      }
-    },
-    "icons": {
-      "16": "icons/logo.jpg",
-      "48": "icons/logo.jpg",
-      "128": "icons/logo.jpg"
-    },
-    "content_scripts": [
-      {
-        "matches": ["<all_urls>"],
-        "js": ["content.js"]
-      }
-    ]
+  "manifest_version": 3,
+  "name": "File Download Detector",
+  "version": "1.0",
+  "description": "Detects multiple downloads and shows a confirmation popup.",
+  "permissions": [
+    "downloads"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html"
   }
-  
+}
